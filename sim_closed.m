@@ -7,7 +7,7 @@ u = 0;                  % input modeled in the topology file!
 %simulation parameter
 t  = 0;                 % simulation start time
 tf = 20;                 % simulation stop time
-h(1)  = 5e-2;              % constant stepsize
+h(1)  = 0.01;              % constant stepsize
 global d;
 d = [0];
 global ha
@@ -20,11 +20,11 @@ Tm = 10;
 x = 0;              % x ... system state vector
 yp = 0;
 global u2
-u2 = 0.49;
+u2 = -0.25;
 
 te = -Tm*log(1-(he-ha)/(1+he-abs(u2)));
 tp = Tm*log((1-ha/abs(u2))/(1-he/abs(u2)))+te;
-flag = 2; %Mit fester Schrittweite oder Steuerung
+flag = 1; %Mit fester Schrittweite oder Steuerung
 % simulation
 i=1;
 while t <= tf         %   loop t = t0...tf
@@ -34,20 +34,20 @@ while t <= tf         %   loop t = t0...tf
     [x,y,hn] = VPG(model_name,x,u,t,h,yp,i);
     
     if flag ==1
-        if hn>2*h(i)&&hn<20
+        if hn>2*h(i)&&hn<0.5
             h(i+1) = hn;
             x_values(i,:) = x;
             y_values(i,:) = y;
-            t_values(i) = t; % Zeitwert f¡§1r Plot speichern
+            t_values(i) = t; % Zeitwert fÂ¨1r Plot speichern
             t = t + h(i); % Zeitvariable um einen Schritt erh?hen
             i = i + 1; % Index inkrementieren
-        elseif (hn>0)&&(hn<=h(i))
+        elseif (hn>0.1)&&(hn<=h(i))
             h(i) = 0.75*hn;
         else 
             h(i+1)=h(i);
             x_values(i,:) = x;
             y_values(i,:) = y;
-            t_values(i) = t; % Zeitwert f¡§1r Plot speichern
+            t_values(i) = t; % Zeitwert fÂ¨1r Plot speichern
             t = t + h(i); % Zeitvariable um einen Schritt erh?hen
             i = i + 1; % Index inkrementieren
         end
@@ -55,7 +55,7 @@ while t <= tf         %   loop t = t0...tf
         h(i+1)=h(i);
         x_values(i,:) = x;
         y_values(i,:) = y;
-        t_values(i) = t; % Zeitwert f¡§1r Plot speichern
+        t_values(i) = t; % Zeitwert fÂ¨1r Plot speichern
         t = t + h(i); % Zeitvariable um einen Schritt erh?hen
         i = i + 1; % Index inkrementieren
     end
