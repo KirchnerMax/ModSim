@@ -16,7 +16,7 @@ u = []; % Stellwerte u(t)
 y = []; % Ausgangswerte y(t)
 ys = []; % Soll-Ausgangswerte y_soll(t)
 to = 10*10^(-6); %Toleranz LDF
-hmin = 12*to
+hmin = 12*to;
 % Initialisierung
 [dum,x(1)] = system_pt1([],[],[],0);
 d(1) = 0;
