@@ -16,6 +16,7 @@ u = []; % Stellwerte u(t)
 y = []; % Ausgangswerte y(t)
 ys = []; % Soll-Ausgangswerte y_soll(t)
 to = 10*10^(-6); %Toleranz LDF
+hmin = 12*to
 % Initialisierung
 [dum,x(1)] = system_pt1([],[],[],0);
 d(1) = 0;
@@ -49,7 +50,7 @@ while ti <= tf
         t(i) = ti; % Zeitwert f¨1r Plot speichern
         ti = ti + h(i); % Zeitvariable um einen Schritt erh?hen
         i = i + 1; % Index inkrementieren
-    elseif (hn>12*to)&&(hn<=h(i))
+    elseif (hn>hmin)&&(hn<=h(i))
         h(i) = 0.75*hn;
     else 
         h(i+1)=h(i);
