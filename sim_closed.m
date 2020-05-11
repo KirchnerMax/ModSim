@@ -4,6 +4,7 @@ clear all
 model_name = 'sys_gesamt';
 global to
 to = 5*10^(-9); %Toleranz LDF
+hmin = 60*to;
 %simulation parameter
 t  = 0;                 % simulation start time
 tf = 20;                 % simulation stop time
@@ -20,7 +21,7 @@ Tm = 10;
 x = 0;              % x ... system state vector
 yp = 0;
 global u2
-u2 = -0.25;
+u2 = 0.17;
 
 te = -Tm*log(1-(he-ha)/(1+he-abs(u2)));
 tp = Tm*log((1-ha/abs(u2))/(1-he/abs(u2)))+te;
@@ -41,7 +42,7 @@ while t <= tf         %   loop t = t0...tf
             t_values(i) = t; % Zeitwert f¨1r Plot speichern
             t = t + h(i); % Zeitvariable um einen Schritt erh?hen
             i = i + 1; % Index inkrementieren
-        elseif (hn>60*to)&&(hn<=h(i))
+        elseif (hn>hmin)&&(hn<=h(i))
             h(i) = 0.75*hn;
         else 
             h(i+1)=h(i);
