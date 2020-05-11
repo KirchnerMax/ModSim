@@ -2,12 +2,12 @@
 clear all
 % system parameter
 model_name = 'sys_gesamt';
-u = 0;                  % input modeled in the topology file!
-
+global to
+to = 5*10^(-9); %Toleranz LDF
 %simulation parameter
 t  = 0;                 % simulation start time
 tf = 20;                 % simulation stop time
-h(1)  = 0.01;              % constant stepsize
+h(1)  = 0.001;              % constant stepsize
 global d;
 d = [0];
 global ha
@@ -31,17 +31,17 @@ while t <= tf         %   loop t = t0...tf
     if i >1
         yp = y_values(i-1,1);
     end
-    [x,y,hn] = VPG(model_name,x,u,t,h,yp,i);
+    [x,y,hn] = VPG(model_name,x,t,h,yp,i);
     
     if flag ==1
-        if hn>2*h(i)&&hn<0.5
+        if hn>1.5*h(i) && hn<0.5
             h(i+1) = hn;
             x_values(i,:) = x;
             y_values(i,:) = y;
             t_values(i) = t; % Zeitwert f¨1r Plot speichern
             t = t + h(i); % Zeitvariable um einen Schritt erh?hen
             i = i + 1; % Index inkrementieren
-        elseif (hn>0.1)&&(hn<=h(i))
+        elseif (hn>60*to)&&(hn<=h(i))
             h(i) = 0.75*hn;
         else 
             h(i+1)=h(i);
